@@ -151,10 +151,21 @@ const writeJSON = (filePath, data) => {
 
 // Helper functions
 const readJSON = (filePath) => {
+  if (isServerless) {
+    if (filePath === SEATS_FILE) return memoryStorage.seats || [];
+    if (filePath === BOOKINGS_FILE) return memoryStorage.bookings;
+    if (filePath === LOCKS_FILE) return memoryStorage.locks;
+  }
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 };
 
 const writeJSON = (filePath, data) => {
+  if (isServerless) {
+    if (filePath === SEATS_FILE) memoryStorage.seats = data;
+    if (filePath === BOOKINGS_FILE) memoryStorage.bookings = data;
+    if (filePath === LOCKS_FILE) memoryStorage.locks = data;
+    return;
+  }
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 };
 

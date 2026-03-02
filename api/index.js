@@ -1,9 +1,11 @@
-// Vercel serverless function that wraps the Express app
+// Vercel serverless function handler for Express app
 const app = require('../backend/server.js');
 
-// Export handler that rewrites paths for Vercel
 module.exports = (req, res) => {
-  // Vercel strips /api from the path, so we need to add it back
-  req.url = '/api' + req.url;
+  // Ensure request URL has /api prefix for Express routes
+  if (!req.url.startsWith('/api')) {
+    req.url = '/api' + req.url;
+  }
+  
   return app(req, res);
 };
