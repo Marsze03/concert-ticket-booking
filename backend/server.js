@@ -152,7 +152,12 @@ const writeJSON = (filePath, data) => {
 // Helper functions
 const readJSON = (filePath) => {
   if (isServerless) {
-    if (filePath === SEATS_FILE) return memoryStorage.seats || [];
+    // Initialize data if not yet loaded
+    if (!memoryStorage.seats) {
+      memoryStorage.seats = generateInitialSeats();
+    }
+    
+    if (filePath === SEATS_FILE) return memoryStorage.seats;
     if (filePath === BOOKINGS_FILE) return memoryStorage.bookings;
     if (filePath === LOCKS_FILE) return memoryStorage.locks;
   }
