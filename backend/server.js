@@ -17,8 +17,25 @@ const SEATS_FILE = path.join(__dirname, 'data', 'seats.json');
 const BOOKINGS_FILE = path.join(__dirname, 'data', 'bookings.json');
 const LOCKS_FILE = path.join(__dirname, 'data', 'locks.json');
 
+// In-memory storage for Vercel (serverless environment)
+const isServerless = process.env.VERCEL === '1';
+let memoryStorage = {
+  seats: null,
+  bookings: [],
+  locks: []
+};
+
 // Initialize data files if they don't exist
 const initializeData = () => {
+  if (isServerless) {
+    // Use in-memory storage for serverless
+    if (!memoryStorage.seats) {
+      memoryStorage.seats = generateInitialSeats();
+    }
+    return;
+  }
+
+  // Use file storage for local development
   const dataDir = path.join(__dirname, 'data');
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir);
@@ -106,10 +123,21 @@ const generateInitialSeats = () => {
           const seatId = `${secConfig.section}-${row}${seatNum}`;
           seats[show].push({
             id: seatId,
-            section: secConfig.section,
-            sectionName: secConfig.name,
-            row: row,
-            number: seatNum,
+  if (isServerless) {
+    if (filePath === SEATS_FILE) return memoryStorage.seats;
+    if (filePath === BOOKINGS_FILE) return memoryStorage.bookings;
+    if (filePath === LOCKS_FILE) return memoryStorage.locks;
+  }
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+};
+
+const writeJSON = (filePath, data) => {
+  if (isServerless) {
+    if (filePath === SEATS_FILE) memoryStorage.seats = data;
+    if (filePath === BOOKINGS_FILE) memoryStorage.bookings = data;
+    if (filePath === LOCKS_FILE) memoryStorage.locks = data;
+    return;
+  }
             category: 'A',
             status: 'available'
           });
