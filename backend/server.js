@@ -368,6 +368,12 @@ app.get('/api/verify-lock/:lockId', (req, res) => {
 // Initialize data and start server
 initializeData();
 
-app.listen(PORT, () => {
-  console.log(`Lady X Booking API running on http://localhost:${PORT}`);
-});
+// Only start server if not in serverless environment
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`Lady X Booking API running on http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
