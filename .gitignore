@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+dist/
+build/
+*/dist/
+*/build/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+*.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Data files (local development only)
+backend/data/*.json
+
+# Temporary files
+*.tmp
+.cache/
+.temp/
+
+# Test coverage
+coverage/
+*.coverage
+
+# Debug
+.pnp.*
+.yarn/*
+
+# Vercel
+.vercel

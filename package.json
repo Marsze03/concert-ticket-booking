@@ -1,0 +1,21 @@
+{
+  "name": "lady-x-booking",
+  "version": "1.0.0",
+  "description": "Full-stack ticket booking system for Lady X show",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon backend/server.js",
+    "client": "cd frontend && npm run dev",
+    "install-all": "npm install && cd frontend && npm install"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.1"
+  }
+}
